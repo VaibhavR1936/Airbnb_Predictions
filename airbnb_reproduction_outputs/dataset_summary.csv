@@ -1,0 +1,4 @@
+City,Rows in file,Rows in paper,Rows after price filter,Numeric features (C),Room types,Areas,Area source column,Minimum price,Median price,Maximum price
+NYC,48895,44317,47840,7,3,5,neighbourhood_group,10.0,101.0,500.0
+Paris,59881,59881,59021,7,3,20,neighbourhood_cleansed,8.0,79.0,500.0
+Berlin,22552,22552,22470,7,3,12,neighbourhood_group,1.0,45.0,500.0

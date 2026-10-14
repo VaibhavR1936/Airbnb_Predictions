@@ -1,0 +1,37 @@
+PART 1 - REPRODUCTION
+Data: NYC (47,840 listings after the $500 filter), Paris (59,021 listings after the $500 filter), Berlin (22,470 listings after the $500 filter).
+Feature set C = 7 numeric columns common to all three files; C+O+T adds room_type, area and the listing title (TF-IDF -> SVD 50).
+  [C] NYC: best reference model XGBoost (test R² 0.347); weakest Ridge regression (0.111).
+  [C] Paris: best reference model XGBoost (test R² 0.316); weakest Ridge regression (0.156).
+  [C] Berlin: best reference model XGBoost (test R² 0.167); weakest Ridge regression (0.036).
+  [C+O+T] NYC: best reference model XGBoost (test R² 0.573); weakest K-nearest neighbors (0.309).
+  [C+O+T] Paris: best reference model XGBoost (test R² 0.429); weakest K-nearest neighbors (0.196).
+  [C+O+T] Berlin: best reference model XGBoost (test R² 0.377); weakest K-nearest neighbors (0.138).
+  NYC XGBoost test R² on feature set C: 0.347 (paper: 0.665 on continuous features, 0.706 with categorical + text).
+  NYC XGBoost test R² on feature set C+O+T: 0.573 (paper: 0.665 on continuous features, 0.706 with categorical + text).
+
+PART 2 - EXTENSION (Extra Trees)
+  [C] NYC: better than ['Ridge regression', 'K-nearest neighbors', 'Neural network']; similar to ['Random forest']; worse than ['XGBoost'].
+  [C] Paris: better than ['Ridge regression', 'K-nearest neighbors', 'Neural network']; similar to ['Random forest']; worse than ['XGBoost'].
+  [C] Berlin: better than ['Ridge regression', 'K-nearest neighbors']; similar to ['Random forest', 'Neural network']; worse than ['XGBoost'].
+  [C+O+T] NYC: better than ['Ridge regression', 'K-nearest neighbors', 'Neural network']; similar to ['Random forest']; worse than ['XGBoost'].
+  [C+O+T] Paris: better than ['Ridge regression', 'K-nearest neighbors', 'Random forest', 'Neural network']; similar to none; worse than ['XGBoost'].
+  [C+O+T] Berlin: better than ['Ridge regression', 'K-nearest neighbors']; similar to ['Random forest', 'Neural network']; worse than ['XGBoost'].
+
+LABEL TRANSFORMATION (XGBoost)
+  [C] NYC, $500 cutoff: dollar-scale R² raw 0.347 vs log 0.303; log-space R² of the log model 0.402.
+  [C] NYC, No $500 cutoff: dollar-scale R² raw 0.176 vs log 0.125; log-space R² of the log model 0.379.
+  [C] Paris, $500 cutoff: dollar-scale R² raw 0.316 vs log 0.276; log-space R² of the log model 0.328.
+  [C] Paris, No $500 cutoff: dollar-scale R² raw 0.229 vs log 0.237; log-space R² of the log model 0.373.
+  [C] Berlin, $500 cutoff: dollar-scale R² raw 0.167 vs log 0.160; log-space R² of the log model 0.214.
+  [C] Berlin, No $500 cutoff: dollar-scale R² raw -3.204 vs log 0.160; log-space R² of the log model 0.236.
+  [C+O+T] NYC, $500 cutoff: dollar-scale R² raw 0.573 vs log 0.552; log-space R² of the log model 0.674.
+  [C+O+T] NYC, No $500 cutoff: dollar-scale R² raw 0.243 vs log 0.214; log-space R² of the log model 0.611.
+  [C+O+T] Paris, $500 cutoff: dollar-scale R² raw 0.429 vs log 0.400; log-space R² of the log model 0.505.
+  [C+O+T] Paris, No $500 cutoff: dollar-scale R² raw 0.319 vs log 0.288; log-space R² of the log model 0.531.
+  [C+O+T] Berlin, $500 cutoff: dollar-scale R² raw 0.377 vs log 0.367; log-space R² of the log model 0.502.
+  [C+O+T] Berlin, No $500 cutoff: dollar-scale R² raw -2.930 vs log 0.275; log-space R² of the log model 0.520.
+
+CROSS-CITY TRANSFER (MLP, log label, per-city scaler; log-space test R² on Berlin)
+  [C only] NYC only -2.226; Paris only -0.943; NYC+Paris -1.157 (paper: -3.512 / -17.42 / 0.514).
+  [C + room_type + text] NYC only -1.343; Paris only -0.184; NYC+Paris -0.565 (paper: -3.512 / -17.42 / 0.514).

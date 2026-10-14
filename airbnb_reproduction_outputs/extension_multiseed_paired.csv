@@ -1,0 +1,7 @@
+city,comparison,mean ΔR²,std ΔR²,seeds Extra Trees wins,n seeds,reading
+Berlin,Extra Trees - Random forest,0.015385813954555997,0.0167974875606608,2,3,similar (|mean| < std)
+Berlin,Extra Trees - XGBoost,-0.026292812905741147,0.015408137280307684,0,3,Extra Trees worse
+NYC,Extra Trees - Random forest,0.00739886901115235,0.006793743778609762,3,3,Extra Trees better
+NYC,Extra Trees - XGBoost,-0.019425523374483594,0.010940351446590944,0,3,Extra Trees worse
+Paris,Extra Trees - Random forest,0.013319137952588581,0.00019933492751210964,3,3,Extra Trees better
+Paris,Extra Trees - XGBoost,-0.03491922415744179,0.0030937680637775538,0,3,Extra Trees worse
